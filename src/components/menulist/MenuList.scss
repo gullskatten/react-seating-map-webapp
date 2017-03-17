@@ -20,9 +20,9 @@ div {
 }
 
 .MenuListAvailable {
-    padding: 0;
-    margin: 0;
-    border: 1px solid #ddd;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ddd;
 
   .MenuListItemAvailable {
     padding: 10px;
@@ -33,7 +33,7 @@ div {
     border-bottom: 1px solid #ddd;
 
     &:hover {
-        background: #eee;
+      background: #eee;
     }
 
     &-name {
@@ -41,6 +41,7 @@ div {
       display: block;
       margin-bottom: 3px;
     }
+
     &-team {
       color: #8E8E8E;
       font-size: 12px;

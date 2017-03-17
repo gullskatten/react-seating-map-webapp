@@ -3,7 +3,7 @@ import Seats from '../../containers/testdata/Seats';
 
 import './MenuList.css';
 
-const MenuListAvailabilityItem = ({title, originalDate}) => {
+const MenuListAvailabilityItem = ({ title, originalDate }) => {
 
   const dateDefined = new Date(originalDate);
 
@@ -37,9 +37,8 @@ const MenuListAvailabilityItem = ({title, originalDate}) => {
               }
             }
           return returnedList;
-      })
-
-    }
+        })
+      }
       </ul>
     </div>
   );

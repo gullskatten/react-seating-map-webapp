@@ -23,20 +23,15 @@ class Board extends Component {
            }
       }
 
-      const  styleClass = isAvailableToday ? 'green' : 'blue';
+      const  styleClass = isAvailableToday ? { background: '#6FCF97' } : { background: '#FFB74D' };
+
       returnedList.push(
-        <Row>
-          <Column large="12">
-            <Row>
-              <Column large="4">
-            <li key={Math.random()} >
-              <span style={{color:styleClass}}>{currentMember.name}</span>
-            </li>
-             </Column>
-            </Row>
-          </Column>
-         </Row>
-         );
+        <li key={Math.random()} className="Board-list-item">
+          <div className="Board-list-item-inner" style={styleClass}>
+            <span>{currentMember.name}</span>
+          </div>
+        </li>
+      );
     }
     return returnedList;
   }
@@ -47,23 +42,27 @@ class Board extends Component {
 
     return (
     <div className="Board">
-    <Row maxWidth="100%">
+      <Row maxWidth="100%">
+        <div className="Board-inner">
+          {
+            Seats.map((team, index) => {
+              let returnedList = [];
 
-    {
-      Seats.map((team, index) => {
-        let returnedList = [];
-
-          returnedList.push(
-            <Column large="6">
-            <span>{team.teamName}</span>
-
-              {this.createTeamLabels(team, dateDefined)}
-            </Column>
-          );
-        return returnedList;
-    })
-    }
-    </Row>
+                returnedList.push(
+                  <Column large="6">
+                  <div className="Board-inner-team">
+                    <span className="Board-inner-team-name">{team.teamName}</span>
+                      <ul className="Board-list">
+                        {this.createTeamLabels(team, dateDefined)}
+                      </ul>
+                  </div>
+                  </Column>
+                );
+              return returnedList;
+          })
+          }
+        </div>
+      </Row>
     </div>
     );
   }
