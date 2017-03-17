@@ -1,3 +1,27 @@
 .Board {
   float: left;
   width: calc(100vw - 300px); }
+
+.Board-inner {
+  padding: 50px 20px; }
+
+.Board-inner-team {
+  margin-bottom: 50px;
+  display: table;
+  width: 100%; }
+
+.Board-inner-team-name {
+  font-weight: bold; }
+
+.Board-list {
+  list-style: none;
+  padding: 0; }
+
+.Board-list-item {
+  width: 33.3333336%;
+  float: left;
+  padding: 5px; }
+
+.Board-list-item-inner {
+  padding: 10px 30px;
+  background: red; }
