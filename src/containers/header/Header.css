@@ -1,0 +1,18 @@
+.Header {
+  padding: 15px 30px;
+  background: #2F80ED;
+  color: #fff;
+  border-bottom: 5px solid #5e9df1;
+  display: table;
+  width: 100%; }
+  .Header h1 {
+    float: left;
+    font-size: 16px;
+    margin: 0;
+    font-weight: 300;
+    position: relative;
+    top: 7px; }
+  .Header span {
+    float: right; }
+    .Header span .icon {
+      font-size: 30px; }

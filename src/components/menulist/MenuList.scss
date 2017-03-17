@@ -1,0 +1,51 @@
+div {
+  h3 {
+    padding: 15px;
+    margin: 0;
+    background: #6FCF97;
+    color: #fff;
+    font-weight: 300;
+    border-bottom: 5px solid lighten(#6FCF97, 10%);
+  }
+}
+
+.MenuListHeader {
+  padding: 10px;
+  margin: 0;
+  background: #eee;
+  color: #4F4F4F;
+  font-weight: 300;
+  font-size: 15px;
+  display: block;
+}
+
+.MenuListAvailable {
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ddd;
+
+  .MenuListItemAvailable {
+    padding: 10px;
+    margin: 0;
+    background: #fff;
+    font-weight: 300;
+    display: block;
+    border-bottom: 1px solid #ddd;
+
+    &:hover {
+        background: #eee;
+    }
+
+    &-name {
+      color: #4F4F4F;
+      display: block;
+      margin-bottom: 3px;
+    }
+    &-team {
+      color: #8E8E8E;
+      font-size: 12px;
+      font-style: italic;
+      display: block;
+    }
+  }
+}
