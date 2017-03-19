@@ -1,0 +1,49 @@
+
+.overlay{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background: rgba(0,0,0,0.7);
+  z-index: 5000;
+}
+
+.Modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+  width: 600px;
+  height: 500px;
+  background: #fff;
+  z-index: 5001;
+}
+
+.ModalExit{
+  position: absolute;
+  right: 10px;
+  top:15px;
+  color: #fff;
+}
+
+.ModalHeader {
+  padding: 15px;
+  background: #79D09D;
+  color: #fff;
+  border-bottom:  5px solid lighten(#79D09D, 10%);
+}
+
+.ModalBody {
+  padding: 15px;
+}
+.DayPicker {
+  width: 100% !important;
+  position: static !important;
+  padding: 0 !important;
+  height: 100%;
+}
+.DayPicker-Day--selected {
+  background-color:  #79D09D !important;
+  color: white;
+}

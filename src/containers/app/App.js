@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { UrlFindAllMembers } from '../constants/UrlConstants';
 import Header from '../header/Header';
 import Sidebar from '../sidebar/Sidebar'
 import Board from '../board/Board'
-
+import axios from 'axios';
 import './App.css';
 
 class App extends Component {
@@ -10,8 +11,24 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMenuOpen: true
+      isMenuOpen: true,
+      seats: []
     };
+  }
+
+  componentDidMount() {
+    this.fetchAllTeams();
+  }
+
+  fetchAllTeams() {
+    return axios.get(UrlFindAllMembers).then((response) => {
+      this.setState({
+        seats: response.data
+      });
+
+    }).catch((error) => {
+
+    });
   }
 
   getToday() {
@@ -26,8 +43,8 @@ class App extends Component {
     return (
       <div>
         <Header onClick={this.triggerMenu}/>
-        <Board originalDate={this.getToday()}/>
-        <Sidebar toggleClass={isMenuOpen}/>
+        <Board seats={this.state.seats} originalDate={this.getToday()}/>
+        <Sidebar seats={this.state.seats} toggleClass={isMenuOpen}/>
       </div>
     );
   }

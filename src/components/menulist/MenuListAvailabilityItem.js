@@ -3,7 +3,7 @@ import Seats from '../../containers/testdata/Seats';
 
 import './MenuList.css';
 
-const MenuListAvailabilityItem = ({ title, originalDate }) => {
+const MenuListAvailabilityItem = ({ title, originalDate, seats }) => {
 
   const dateDefined = new Date(originalDate);
 
@@ -15,7 +15,7 @@ const MenuListAvailabilityItem = ({ title, originalDate }) => {
 
       <ul className="MenuListAvailable">
       {
-        Seats.map((team, index) => {
+        seats.map((team, index) => {
           let returnedList = [];
 
             for(let memberCount = 0; memberCount < team.members.length; memberCount++) {

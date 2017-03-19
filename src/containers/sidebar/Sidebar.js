@@ -4,6 +4,10 @@ import MenuList from '../../components/menulist/MenuList';
 
 class Sidebar extends Component {
 
+  constructor(props) {
+   super(props);
+ }
+
   getTomorrow() {
     var today = new Date();
     var tomorrow = new Date();
@@ -21,7 +25,7 @@ class Sidebar extends Component {
   render() {
     return (
       <div className={`Sidebar ${this.props.toggleClass}`}>
-      <MenuList today={this.getToday()} tomorrow={this.getTomorrow()}/>
+      <MenuList seats={this.props.seats} today={this.getToday()} tomorrow={this.getTomorrow()}/>
       </div>
     );
   }
