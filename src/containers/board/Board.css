@@ -31,7 +31,8 @@
   color: #999;
   display: inline-block;
   margin-top: 1rem;
-  float: left; }
+  float: left;
+  cursor: pointer; }
 
 .Board-inner-team {
   margin-bottom: 50px;
@@ -52,4 +53,5 @@
 
 .Board-list-item-inner {
   padding: 10px 30px;
-  background: red; }
+  background: red;
+  cursor: pointer; }
