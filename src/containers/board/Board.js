@@ -170,6 +170,7 @@ class Board extends Component {
     return axios.
       post(UrlAddTeam, {
         teamName: this.state.newTeamName,
+        location: 'D4 - West'
         members: []
       })
       .then((response) => {
