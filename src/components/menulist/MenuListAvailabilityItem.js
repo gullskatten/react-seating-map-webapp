@@ -1,5 +1,4 @@
 import React from 'react';
-import Seats from '../../containers/testdata/Seats';
 
 import './MenuList.css';
 

@@ -20,6 +20,12 @@ class App extends Component {
     this.fetchAllTeams();
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.seats !== nextState.seats) {
+      this.fetchAllTeams();
+    }
+  }
+
   fetchAllTeams() {
     return axios.get(UrlFindAllMembers).then((response) => {
       this.setState({

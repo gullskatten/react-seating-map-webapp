@@ -3,11 +3,6 @@ import './Sidebar.css';
 import MenuList from '../../components/menulist/MenuList';
 
 class Sidebar extends Component {
-
-  constructor(props) {
-   super(props);
- }
-
   getTomorrow() {
     var today = new Date();
     var tomorrow = new Date();

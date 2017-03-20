@@ -7,17 +7,14 @@
   z-index: 1;
   display: table;
   width: 100%; }
-
-.Header h1 {
-  float: left;
-  font-size: 16px;
-  margin: 0;
-  font-weight: 300;
-  position: relative;
-  top: 7px; }
-
-.Header span {
-  float: right; }
-
-.Header span .icon {
-  font-size: 30px; }
+  .Header h1 {
+    float: left;
+    font-size: 16px;
+    margin: 0;
+    font-weight: 300;
+    position: relative;
+    top: 7px; }
+  .Header span {
+    float: right; }
+    .Header span .icon {
+      font-size: 30px; }

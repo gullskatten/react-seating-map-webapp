@@ -4,7 +4,7 @@ import { Row, Column } from 'react-gridify';
 import Modal from '../../components/modal/Modal'
 import DayPicker from "react-day-picker";
 import axios from 'axios';
-import {UrlUpdateMember, UrlAddmember} from '../constants/UrlConstants';
+import {UrlUpdateMember, UrlAddmember, UrlAddTeam} from '../constants/UrlConstants';
 import "react-day-picker/lib/style.css";
 import moment from 'moment';
 
@@ -17,8 +17,10 @@ class Board extends Component {
      currentTeam: '',
      isUserModalOpen: false,
      isNewUserModalOpen: false,
+     isNewTeamModalOpen: false,
      selectedDays: [],
-     newMemberName: ''
+     newMemberName: '',
+     newTeamName: '',
    };
    this.userClicked = this.userClicked.bind(this);
    this.newUserClicked = this.newUserClicked.bind(this);
@@ -52,16 +54,18 @@ class Board extends Component {
       this.setState({selectedDays: copyOfSelectedDays});
    }
 
-   return axios.put(UrlUpdateMember, currentMember).then((response) => {
-     console.log(response);
+   return axios
+   .put(UrlUpdateMember, currentMember)
+   .then((response) => {
+
    }).catch((error) => {
-   console.log(error);
+     console.log(error);
    });
 
   }
 
   createTeamLabels(team, dateDefined) {
-      let returnedList = [];
+    let returnedList = [];
 
     for(let memberCount = 0; memberCount < team.members.length; memberCount++) {
 
@@ -142,12 +146,12 @@ class Board extends Component {
     if(this.state.isNewUserModalOpen) {
 
       return(
-        <Modal onExit={this.hideModal}>
+        <Modal onExit={this.hideModal} height="250px">
           <div className="ModalHeader">
           Add new Team Member
           </div>
           <div className="ModalBody">
-          <p>Click to update available dates for this seat.</p>
+          <p>Type in the name of the new member</p>
           <input type="text" placeholder="Enter name.." onChange={this.newUserNameChanged}/>
           <button onClick={this.saveNewUser}>Save</button>
           </div>
@@ -156,13 +160,62 @@ class Board extends Component {
     }
   }
 
+  newTeamChanged = (e) => {
+    this.setState({
+      newTeamName: e.target.value
+    });
+  }
+
+  saveNewTeam = () => {
+    return axios.
+      post(UrlAddTeam, {
+        teamName: this.state.newTeamName,
+        members: []
+      })
+      .then((response) => {
+
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
+      this.hideModal();
+  }
+
+  displayNewTeamModal() {
+    this.setState({
+      isNewTeamModalOpen: true
+    });
+  }
+
+  renderNewTeamModal = () => {
+    if (this.state.isNewTeamModalOpen) {
+      return(
+        <Modal onExit={this.hideModal} height="250px">
+          <div className="ModalHeader">
+          Add new Team
+          </div>
+          <div className="ModalBody">
+          <p>Type in the name of the new team</p>
+          <input type="text" placeholder="Enter team name.." onChange={this.newTeamChanged}/>
+          <button onClick={this.saveNewTeam}>Save</button>
+          </div>
+        </Modal>
+      );
+    }
+  }
+
   saveNewUser = () => {
-    axios.put(`${UrlAddmember}${this.state.currentTeam}`, {name: this.state.newMemberName, availabilityDates: []}).then((response) => {
-      console.log(response);
+    axios.put(`${UrlAddmember}${this.state.currentTeam}`,
+      {
+        name: this.state.newMemberName,
+        availabilityDates: []
+      }
+    ).then((response) => {
     }).catch((error) => {
     console.log(error);
     });
-    
+
     this.hideModal();
   }
 
@@ -171,7 +224,13 @@ class Board extends Component {
   }
 
   hideModal = () => {
-    this.setState({isUserModalOpen: false, isNewUserModalOpen: false, newMemberName: '', currentTeam: ''});
+    this.setState({isUserModalOpen: false,
+      isNewUserModalOpen: false,
+      newMemberName: '',
+      currentTeam: '',
+      isNewTeamModalOpen: false,
+      newTeamName: ''
+    });
   }
 
   render() {
@@ -181,7 +240,14 @@ class Board extends Component {
     <div className="Board">
       {this.displayUserModal(this.state.currentShownMember)}
       {this.displayNewUserModal(this.state.currentTeam)}
+      {this.renderNewTeamModal()}
       <Row maxWidth="100%">
+        <Column>
+          <div className="Board-inner-addTeam" onClick={() => this.displayNewTeamModal()}>+ Add team</div>
+        </Column>
+      </Row>
+      <Row maxWidth="100%">
+        <Column>
         <div className="Board-inner">
           {
              this.props.seats.map((team, index) => {
@@ -201,6 +267,7 @@ class Board extends Component {
           })
           }
         </div>
+        </Column>
       </Row>
     </div>
     );

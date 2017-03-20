@@ -2,8 +2,36 @@
   float: left;
   width: calc(100vw - 300px); }
 
+.Board input[type=text] {
+  width: 100%;
+  height: 40px;
+  font-size: 1rem;
+  padding-left: 10px; }
+
+.Board button {
+  float: right;
+  margin-top: 1rem;
+  border: 0;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background: #2F80ED;
+  transition: background 0.1s ease-in-out;
+  cursor: pointer; }
+
+.Board button:hover {
+  background: #1366d6; }
+
 .Board-inner {
   padding: 50px 20px; }
+
+.Board-inner-addTeam {
+  padding: 5px 10px;
+  background: #eee;
+  color: #999;
+  display: inline-block;
+  margin-top: 1rem;
+  float: left; }
 
 .Board-inner-team {
   margin-bottom: 50px;
