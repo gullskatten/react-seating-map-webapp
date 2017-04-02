@@ -3,65 +3,53 @@
   width: calc(100vw - 300px);
   padding: 0px 30px;
   margin-top: 40px; }
-
-.Board-fullWidth {
-  width: 100% !important; }
-
-.Board input[type=text] {
-  width: 100%;
-  height: 40px;
-  font-size: 1rem;
-  padding-left: 10px; }
-
-.Board button {
-  float: right;
-  margin-top: 1rem;
-  border: 0;
-  padding: 10px 20px;
-  font-size: 1rem;
-  color: #fff;
-  background: #2F80ED;
-  transition: background 0.1s ease-in-out;
-  cursor: pointer; }
-
-.Board button:hover {
-  background: #1366d6; }
-
-.Board-inner {
-  display: table;
-  width: 100%;
-  padding-top: 50px; }
-
-.Board-inner-team {
-  margin-bottom: 50px;
-  padding: 0px 20px;
-  display: table;
-  width: 50%;
-  float: left; }
-
-.Board-inner-team-name {
-  font-weight: bold;
-  margin-right: 10px; }
-
-.Board-inner-team-location {
-  color: #999; }
-
-.Board-list {
-  list-style: none;
-  padding: 0; }
-
-.Board-list-item {
-  width: 33.3333336%;
-  padding: 5px;
-  display: inline-block; }
-
-.Board-list-item-inner {
-  padding: 7px 15px;
-  cursor: pointer; }
-
-.Board-list-item-inner span {
-  white-space: nowrap;
-  overflow: hidden;
-  font-weight: 300;
-  text-overflow: ellipsis;
-  display: block; }
+  .Board-fullWidth {
+    width: 100% !important; }
+  .Board input[type=text] {
+    width: 100%;
+    height: 40px;
+    font-size: 1rem;
+    padding-left: 10px; }
+  .Board button {
+    float: right;
+    margin-top: 1rem;
+    border: 0;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background: #2F80ED;
+    transition: background 0.1s ease-in-out;
+    cursor: pointer; }
+    .Board button:hover {
+      background: #1366d6; }
+  .Board-inner {
+    display: table;
+    width: 100%;
+    padding-top: 50px; }
+    .Board-inner-team {
+      margin-bottom: 50px;
+      padding: 0px 20px;
+      display: table;
+      width: 50%;
+      float: left; }
+      .Board-inner-team-name {
+        font-weight: bold;
+        margin-right: 10px; }
+      .Board-inner-team-location {
+        color: #999; }
+  .Board-list {
+    list-style: none;
+    padding: 0; }
+    .Board-list-item {
+      width: 33.3333336%;
+      padding: 5px;
+      display: inline-block; }
+      .Board-list-item-inner {
+        padding: 7px 15px;
+        cursor: pointer; }
+        .Board-list-item-inner span {
+          white-space: nowrap;
+          overflow: hidden;
+          font-weight: 300;
+          text-overflow: ellipsis;
+          display: block; }

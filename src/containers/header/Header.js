@@ -20,7 +20,9 @@ class Header extends Component {
   }
 
   saveNewTeam = () => {
-    this.props.store.newTeamLocation = this.props.store.newTeamLocation == '' ? "D4 - Øst (Funksjonell + Markedsoperasjon)" : this.props.store.newTeamLocation;
+    this.props.store.newTeamLocation = this.props.store.newTeamLocation == ''
+      ? "D4 - Øst (Funksjonell + Markedsoperasjon)"
+      : this.props.store.newTeamLocation;
 
     return axios.
       post(UrlAddTeam, {
@@ -76,7 +78,7 @@ class Header extends Component {
         {this.renderNewTeamModal()}
       <Title title={this.props.store.title}/>
       <span onClick={this.props.onClick}>
-      <FontAwesome name='ellipsis-h' className="icon"/>
+      <FontAwesome name='bars' className="icon"/>
       </span>
       <div className="Header-addTeam" onClick={() => this.displayNewTeamModal()}>+ New team</div>
       </header>
