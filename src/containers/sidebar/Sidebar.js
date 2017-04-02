@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './Sidebar.css';
 import MenuList from '../../components/menulist/MenuList';
+import { inject, observer } from 'mobx-react';
 
+@inject("store")
+@observer
 class Sidebar extends Component {
   getTomorrow() {
     var today = new Date();
@@ -20,7 +23,7 @@ class Sidebar extends Component {
   render() {
     return (
       <div className={`Sidebar ${this.props.toggleClass}`}>
-      <MenuList seats={this.props.seats} today={this.getToday()} tomorrow={this.getTomorrow()}/>
+      <MenuList seats={this.props.store.seats} today={this.getToday()} tomorrow={this.getTomorrow()}/>
       </div>
     );
   }
