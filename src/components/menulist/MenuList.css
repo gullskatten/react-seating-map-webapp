@@ -27,9 +27,6 @@ div h3 {
   border-bottom: 1px solid #ddd;
   width: 100%; }
 
-.MenuListAvailable .MenuListItemAvailable:hover {
-  background: #eee; }
-
 .MenuListAvailable .MenuListItemAvailable-name {
   color: #4F4F4F;
   display: block;
