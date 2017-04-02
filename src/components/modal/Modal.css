@@ -17,10 +17,9 @@
   width: 600px;
   background: #fff;
   z-index: 5001; }
-
-@media (max-width: 600px) {
-  .Modal {
-    width: 100%; } }
+  @media (max-width: 600px) {
+    .Modal {
+      width: 100%; } }
 
 .ModalExit {
   position: absolute;
@@ -35,9 +34,8 @@
 
 .ModalBody {
   padding: 15px; }
-
-.ModalBody ul {
-  padding: 0 !important; }
+  .ModalBody ul {
+    padding: 0 !important; }
 
 .DayPicker {
   width: 100% !important;

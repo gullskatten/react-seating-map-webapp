@@ -17,23 +17,20 @@ div h3 {
 .MenuListAvailable {
   padding: 0;
   margin: 0; }
-
-.MenuListAvailable .MenuListItemAvailable {
-  padding: 10px 0;
-  margin: 0;
-  background: #fff;
-  font-weight: 300;
-  display: block;
-  border-bottom: 1px solid #ddd;
-  width: 100%; }
-
-.MenuListAvailable .MenuListItemAvailable-name {
-  color: #4F4F4F;
-  display: block;
-  margin-bottom: 3px; }
-
-.MenuListAvailable .MenuListItemAvailable-team {
-  color: #8E8E8E;
-  font-size: 12px;
-  font-style: italic;
-  display: block; }
+  .MenuListAvailable .MenuListItemAvailable {
+    padding: 10px 0;
+    margin: 0;
+    background: #fff;
+    font-weight: 300;
+    display: block;
+    border-bottom: 1px solid #ddd;
+    width: 100%; }
+    .MenuListAvailable .MenuListItemAvailable-name {
+      color: #4F4F4F;
+      display: block;
+      margin-bottom: 3px; }
+    .MenuListAvailable .MenuListItemAvailable-team {
+      color: #8E8E8E;
+      font-size: 12px;
+      font-style: italic;
+      display: block; }
