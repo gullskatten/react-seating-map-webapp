@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { UrlFindAllMembers } from '../constants/UrlConstants';
 import Header from '../header/Header';
 import Sidebar from '../sidebar/Sidebar'
 import Board from '../board/Board'
-import axios from 'axios';
 import './App.css';
 import { inject, observer } from 'mobx-react';
 

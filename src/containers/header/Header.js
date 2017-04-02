@@ -20,12 +20,12 @@ class Header extends Component {
   }
 
   saveNewTeam = () => {
-    this.props.store.newTeamLocation = this.props.store.newTeamLocation == ''
+    this.props.store.newTeamLocation = this.props.store.newTeamLocation === ''
       ? "D4 - Øst (Funksjonell + Markedsoperasjon)"
       : this.props.store.newTeamLocation;
 
-    return axios.
-      post(UrlAddTeam, {
+    return axios
+      .post(UrlAddTeam, {
         teamName: this.props.store.newTeamName,
         location: this.props.store.newTeamLocation,
         members: []

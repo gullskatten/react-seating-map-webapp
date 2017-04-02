@@ -4,7 +4,7 @@ import './Board.css';
 import Modal from '../../components/modal/Modal'
 import DayPicker from "react-day-picker";
 import axios from 'axios';
-import {UrlAddmember, UrlAddTeam, UrlDeleteMember} from '../constants/UrlConstants';
+import {UrlAddmember, UrlDeleteMember} from '../constants/UrlConstants';
 import Masonry from 'react-masonry-component';
 import { inject, observer } from 'mobx-react';
 
