@@ -146,6 +146,10 @@ class Board extends Component {
     this.props.store.newMemberName = event.target.value;
   }
 
+  handleDeleteTeam = () => {
+    alert('Not yet implemented!')
+  }
+
   render() {
 
     const dateDefined = new Date(this.props.originalDate);
@@ -166,7 +170,11 @@ class Board extends Component {
 
                 returnedList.push(
                   <div className="Board-inner-team" key={index}>
-                    <span className="Board-inner-team-name"><i className="fa fa-users"></i> {team.teamName}</span>
+                    <span className="Board-inner-team-name">
+                      <span onClick={this.handleDeleteTeam} className="Board-inner-team-delete"><i className="fa fa-trash-o"></i> Delete team</span>
+                      <i className="fa fa-users"></i>
+                      &nbsp;{team.teamName}
+                    </span>
                     <span className="Board-inner-team-location">{team.location}</span>
                       <ul className="Board-list">
                         {this.createTeamLabels(team, dateDefined)}

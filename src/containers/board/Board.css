@@ -45,11 +45,25 @@
 
 @media (max-width: 600px) {
   .Board-inner-team {
-    width: 100%; } }
+    width: 100%;
+    margin-bottom: 25px; } }
+
+.Board-inner-team-delete {
+  margin-right: 10px;
+  display: block;
+  margin-bottom: 10px;
+  color: #999;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out; }
+
+.Board-inner-team-delete:hover {
+  color: #dd2c00; }
 
 .Board-inner-team-name {
   font-weight: bold;
-  margin-right: 10px; }
+  margin-right: 10px;
+  transition: all 0.1s ease-in-out; }
 
 .Board-inner-team-location {
   color: #999; }
