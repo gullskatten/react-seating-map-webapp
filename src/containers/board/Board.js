@@ -35,7 +35,7 @@ class Board extends Component {
       returnedList.push(
         <li key={currentMember._id} className="Board-list-item" id={currentMember._id} onClick={() => this.userClicked(currentMember)}>
           <div className="Board-list-item-inner" style={styleClass}>
-            <span>{currentMember.name}</span>
+            <span><i className="fa fa-user"></i> {currentMember.name}</span>
           </div>
         </li>
       );
@@ -166,7 +166,7 @@ class Board extends Component {
 
                 returnedList.push(
                   <div className="Board-inner-team" key={index}>
-                    <span className="Board-inner-team-name">{team.teamName}</span>
+                    <span className="Board-inner-team-name"><i className="fa fa-users"></i> {team.teamName}</span>
                     <span className="Board-inner-team-location">{team.location}</span>
                       <ul className="Board-list">
                         {this.createTeamLabels(team, dateDefined)}
