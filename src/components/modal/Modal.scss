@@ -19,6 +19,10 @@
   width: 600px;
   background: #fff;
   z-index: 5001;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 }
 
 .ModalExit{

@@ -18,6 +18,10 @@
   background: #fff;
   z-index: 5001; }
 
+@media (max-width: 600px) {
+  .Modal {
+    width: 100%; } }
+
 .ModalExit {
   position: absolute;
   right: 10px;

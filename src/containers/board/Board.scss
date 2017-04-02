@@ -1,8 +1,12 @@
 .Board {
   float: left;
   width: calc(100vw - 300px);
-  padding: 0px 30px;
+  padding: 0 30px;
   margin-top: 40px;
+
+  @media (max-width: 600px) {
+    padding: 0 10px;
+  }
 
   &-fullWidth {
     width: 100% !important;
