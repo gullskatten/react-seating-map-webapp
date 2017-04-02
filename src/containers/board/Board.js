@@ -1,68 +1,16 @@
+import "react-day-picker/lib/style.css";
 import React, { Component } from 'react';
 import './Board.css';
-import { Row, Column } from 'react-gridify';
 import Modal from '../../components/modal/Modal'
 import DayPicker from "react-day-picker";
 import axios from 'axios';
-import {UrlUpdateMember, UrlAddmember, UrlAddTeam} from '../constants/UrlConstants';
-import "react-day-picker/lib/style.css";
-import moment from 'moment';
+import {UrlAddmember, UrlAddTeam, UrlDeleteMember} from '../constants/UrlConstants';
+import Masonry from 'react-masonry-component';
+import { inject, observer } from 'mobx-react';
 
+@inject("store")
+@observer
 class Board extends Component {
-
-  constructor(props) {
-   super(props);
-   this.state = {
-     currentShownMember: {},
-     currentTeam: '',
-     isUserModalOpen: false,
-     isNewUserModalOpen: false,
-     isNewTeamModalOpen: false,
-     selectedDays: [],
-     newMemberName: '',
-     newTeamName: '',
-   };
-   this.userClicked = this.userClicked.bind(this);
-   this.newUserClicked = this.newUserClicked.bind(this);
-   this.saveNewUser = this.saveNewUser.bind(this);
- }
-
- handleDayClick = (day) => {
-
-   day.setHours(0,0,0,0);
-
-   let copyOfSelectedDays = [...this.state.selectedDays]; // 3 = 3
-   let currentMember = this.state.currentShownMember;
-
-   this.state.selectedDays.map((selectedDay, index) => {
-     selectedDay.setHours(0,0,0,0);
-     if (selectedDay.toString() === day.toString()) {
-      copyOfSelectedDays.splice(index, 1);
-    }
-   });
-
-   if(copyOfSelectedDays.length === this.state.selectedDays.length) {
-       let formattedDay = moment(day).format('YYYY-MM-DD');
-       this.setState({ selectedDays: [...this.state.selectedDays, day]});
-
-       currentMember.availabilityDates.push(formattedDay);
-       this.setState({ currentShownMember: currentMember});
-   } else {
-      currentMember.availabilityDates = [];
-      currentMember.availabilityDates = copyOfSelectedDays;
-      this.setState({currentShownMember: currentMember});
-      this.setState({selectedDays: copyOfSelectedDays});
-   }
-
-   return axios
-   .put(UrlUpdateMember, currentMember)
-   .then((response) => {
-
-   }).catch((error) => {
-     console.log(error);
-   });
-
-  }
 
   createTeamLabels(team, dateDefined) {
     let returnedList = [];
@@ -94,7 +42,7 @@ class Board extends Component {
     }
 
     returnedList.push(
-      <li className="Board-list-item" id={team._id} onClick={() => this.newUserClicked(team._id)}>
+      <li className="Board-list-item" key={team._id} id={team._id} onClick={() => this.newUserClicked(team._id)}>
         <div className="Board-list-item-inner" style={{background: '#eee', color: '#999'}}>
           <span>+ Add member</span>
         </div>
@@ -104,12 +52,14 @@ class Board extends Component {
     return returnedList;
   }
 
-  newUserClicked(teamId) {
-      this.setState({currentTeam: teamId, isNewUserModalOpen: true});
+  newUserClicked = (teamId) => {
+      this.props.store.currentTeam = teamId;
+      this.props.store.isNewUserModalOpen = true;
   }
 
-  userClicked(currentMember) {
-    this.setState({currentShownMember: currentMember, isUserModalOpen: true});
+  userClicked = (currentMember) => {
+    this.props.store.currentShownMember = currentMember;
+    this.props.store.isUserModalOpen = true;
 
     let selectedDays = [];
 
@@ -117,14 +67,13 @@ class Board extends Component {
       selectedDays[i] = new Date(currentMember.availabilityDates[i]);
     }
 
-    this.setState({selectedDays: selectedDays});
+    this.props.store.selectedDays = selectedDays;
   }
 
   displayUserModal(currentMember) {
-    if(this.state.isUserModalOpen) {
-
+    if(this.props.store.isUserModalOpen) {
       return(
-        <Modal onExit={this.hideModal}>
+        <Modal onExit={this.props.store.hideModal}>
           <div className="ModalHeader">
           {currentMember.name}
           </div>
@@ -133,20 +82,37 @@ class Board extends Component {
           <ul>
           <DayPicker
             initialMonth={new Date()}
-            selectedDays={ this.state.selectedDays }
-            onDayClick={ this.handleDayClick }/>
+            selectedDays={ this.props.store.selectedDays }
+            onDayClick={ this.props.store.handleDayClick }/>
           </ul>
+          <button className="delete" style={{background: '#F44336'}} onClick={() => this.deleteUser()}>
+          Delete {currentMember.name}?</button>
           </div>
         </Modal>
       );
     }
   }
 
-  displayNewUserModal(teamId) {
-    if(this.state.isNewUserModalOpen) {
+  deleteUser = () => {
+    const isConfirmed = confirm(`Are you sure you want to delete ${this.props.store.currentShownMember.name}?`);
+    if(isConfirmed) {
+      axios.delete(`${UrlDeleteMember}${this.props.store.currentShownMember.team_id}/${this.props.store.currentShownMember._id}`
+      ).then((response) => {
+            this.props.store.fetchAllTeams();
+            this.props.store.hideModal();
 
+      }).catch((error) => {
+      console.log(error);
+      });
+    } else {
+      return false;
+    }
+  }
+
+  displayNewUserModal(teamId) {
+    if(this.props.store.isNewUserModalOpen) {
       return(
-        <Modal onExit={this.hideModal} height="250px">
+        <Modal onExit={this.props.store.hideModal} height="250px">
           <div className="ModalHeader">
           Add new Team Member
           </div>
@@ -160,117 +126,58 @@ class Board extends Component {
     }
   }
 
-  newTeamChanged = (e) => {
-    this.setState({
-      newTeamName: e.target.value
-    });
-  }
-
-  saveNewTeam = () => {
-    return axios.
-      post(UrlAddTeam, {
-        teamName: this.state.newTeamName,
-        location: 'D4 - West'
-        members: []
-      })
-      .then((response) => {
-
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-
-      this.hideModal();
-  }
-
-  displayNewTeamModal() {
-    this.setState({
-      isNewTeamModalOpen: true
-    });
-  }
-
-  renderNewTeamModal = () => {
-    if (this.state.isNewTeamModalOpen) {
-      return(
-        <Modal onExit={this.hideModal} height="250px">
-          <div className="ModalHeader">
-          Add new Team
-          </div>
-          <div className="ModalBody">
-          <p>Type in the name of the new team</p>
-          <input type="text" placeholder="Enter team name.." onChange={this.newTeamChanged}/>
-          <button onClick={this.saveNewTeam}>Save</button>
-          </div>
-        </Modal>
-      );
-    }
-  }
-
   saveNewUser = () => {
-    axios.put(`${UrlAddmember}${this.state.currentTeam}`,
+
+    axios.put(`${UrlAddmember}${this.props.store.currentTeam}`,
       {
-        name: this.state.newMemberName,
-        availabilityDates: []
+        name: this.props.store.newMemberName,
+        availabilityDates: [],
+        team_id: this.props.store.currentTeam
       }
     ).then((response) => {
+        this.props.store.fetchAllTeams();
+        this.props.store.hideModal();
     }).catch((error) => {
     console.log(error);
     });
-
-    this.hideModal();
   }
 
   newUserNameChanged = (event) => {
-    this.setState({newMemberName: event.target.value});
-  }
-
-  hideModal = () => {
-    this.setState({isUserModalOpen: false,
-      isNewUserModalOpen: false,
-      newMemberName: '',
-      currentTeam: '',
-      isNewTeamModalOpen: false,
-      newTeamName: ''
-    });
+    this.props.store.newMemberName = event.target.value;
   }
 
   render() {
 
     const dateDefined = new Date(this.props.originalDate);
+    const toggleBoardClass = this.props.store.isMenuOpen ? '' : 'Board-fullWidth';
     return (
-    <div className="Board">
-      {this.displayUserModal(this.state.currentShownMember)}
-      {this.displayNewUserModal(this.state.currentTeam)}
-      {this.renderNewTeamModal()}
-      <Row maxWidth="100%">
-        <Column>
-          <div className="Board-inner-addTeam" onClick={() => this.displayNewTeamModal()}>+ Add team</div>
-        </Column>
-      </Row>
-      <Row maxWidth="100%">
-        <Column>
-        <div className="Board-inner">
-          {
+    <div className={`Board ${toggleBoardClass}`}>
+      {this.displayUserModal(this.props.store.currentShownMember)}
+      {this.displayNewUserModal(this.props.store.currentTeam)}
+      <Masonry
+          className={'Board-inner'} // default ''
+          elementType={'div'} // default 'div'
+          disableImagesLoaded={false} // default false
+          updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+    >
+       {
              this.props.seats.map((team, index) => {
               let returnedList = [];
 
                 returnedList.push(
-                  <Column large="6" key={team._id}>
-                  <div className="Board-inner-team">
+                  <div className="Board-inner-team" key={index}>
                     <span className="Board-inner-team-name">{team.teamName}</span>
+                    <span className="Board-inner-team-location">{team.location}</span>
                       <ul className="Board-list">
                         {this.createTeamLabels(team, dateDefined)}
                       </ul>
                   </div>
-                  </Column>
                 );
               return returnedList;
           })
           }
+            </Masonry>
         </div>
-        </Column>
-      </Row>
-    </div>
     );
   }
 }

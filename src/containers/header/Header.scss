@@ -9,6 +9,52 @@
   display: table;
   width: 100%;
 
+  input[type=text] {
+    width: 100%;
+    height: 40px;
+    font-size: 1rem;
+    padding-left: 10px;
+  }
+
+  button {
+    float: right;
+    margin-top: 1rem;
+    border: 0;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background: #2F80ED;
+    transition: background 0.1s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      background: darken(#2F80ED, 10%);
+    }
+  }
+
+  .select-style {
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 40px;
+      margin-top: 10px;
+      border-radius: 3px;
+      overflow: hidden;
+      padding-left: 10px;
+      background: #fafafa no-repeat 90% 50%;
+  }
+
+  &-addTeam {
+    padding: 5px 20px;
+    background:darken(#2F80ED, 10%);
+    color: #fff;
+    display: inline-block;
+    float: right;
+    margin-right: 35px;
+    cursor: pointer;
+    position: relative;
+    top: 3px;
+  }
+
   h1 {
     float: left;
     font-size: 16px;
@@ -16,6 +62,10 @@
     font-weight: 300;
     position: relative;
     top: 7px;
+  }
+
+  p {
+    color: #333;
   }
 
   span {

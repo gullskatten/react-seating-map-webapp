@@ -5,36 +5,14 @@ import Sidebar from '../sidebar/Sidebar'
 import Board from '../board/Board'
 import axios from 'axios';
 import './App.css';
+import { inject, observer } from 'mobx-react';
 
+@inject("store")
+@observer
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isMenuOpen: true,
-      seats: []
-    };
-  }
-
   componentDidMount() {
-    this.fetchAllTeams();
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (this.state.seats !== nextState.seats) {
-      this.fetchAllTeams();
-    }
-  }
-
-  fetchAllTeams() {
-    return axios.get(UrlFindAllMembers).then((response) => {
-      this.setState({
-        seats: response.data
-      });
-
-    }).catch((error) => {
-
-    });
+    this.props.store.fetchAllTeams();
   }
 
   getToday() {
@@ -45,19 +23,14 @@ class App extends Component {
 
 
   render() {
-    const isMenuOpen = this.state.isMenuOpen ? "DisplayMenu" : "";
+    const isMenuOpen = this.props.store.isMenuOpen ? "DisplayMenu" : "";
     return (
       <div>
-        <Header onClick={this.triggerMenu}/>
-        <Board seats={this.state.seats} originalDate={this.getToday()}/>
-        <Sidebar seats={this.state.seats} toggleClass={isMenuOpen}/>
+        <Header onClick={() => this.props.store.toggleMenu()}/>
+        <Board seats={this.props.store.seats} originalDate={this.getToday()}/>
+        <Sidebar seats={this.props.store.seats} toggleClass={isMenuOpen}/>
       </div>
     );
-  }
-  triggerMenu = () => {
-    this.setState({
-      isMenuOpen: !this.state.isMenuOpen
-    });
   }
 }
 
