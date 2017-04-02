@@ -11,7 +11,6 @@ const MenuListAvailabilityItem = ({ title, originalDate, seats }) => {
       <span className="MenuListHeader">
         {title}
       </span>
-
       <ul className="MenuListAvailable">
       {
         seats.map((team, index) => {

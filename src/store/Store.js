@@ -1,4 +1,4 @@
-import { UrlFindAllMembers, UrlUpdateMember, UrlAddmember, UrlAddTeam }  from '../containers/constants/UrlConstants';
+import { UrlFindAllMembers, UrlUpdateMember }  from '../containers/constants/UrlConstants';
 import { extendObservable, action } from 'mobx';
 import { toJS as mobxToJS } from 'mobx';
 import axios from 'axios';
@@ -24,15 +24,12 @@ export default class Store {
 
  @action
  fetchAllTeams() {
-   console.log("Fetching all teams.");
-
-   return axios.get(UrlFindAllMembers).then((response) => {
-    this.seats = response.data;
-    console.log('seatings = ');
-    console.log( response.data);
-   }).catch((error) => {
-  console.log(error);
-   });
+   return axios
+    .get(UrlFindAllMembers).then((response) => {
+      this.seats = mobxToJS(response.data);
+     }).catch((error) => {
+       console.log(error);
+     });
  }
 
  @action
@@ -48,6 +45,7 @@ export default class Store {
    let copyOfSelectedDays = [...this.selectedDays]; // 3 = 3
    let currentMember = this.currentShownMember;
 
+   // eslint-disable-next-line
    this.selectedDays.map((selectedDay, index) => {
      selectedDay.setHours(0,0,0,0);
      if (selectedDay.toString() === day.toString()) {

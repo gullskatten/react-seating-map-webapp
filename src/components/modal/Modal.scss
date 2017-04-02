@@ -19,6 +19,10 @@
   width: 600px;
   background: #fff;
   z-index: 5001;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 }
 
 .ModalExit{
@@ -30,13 +34,16 @@
 
 .ModalHeader {
   padding: 15px;
-  background: #79D09D;
+  background: #009688;
   color: #fff;
-  border-bottom:  5px solid lighten(#79D09D, 10%);
 }
 
 .ModalBody {
   padding: 15px;
+
+  ul {
+    padding: 0 !important;
+  }
 }
 .DayPicker {
   width: 100% !important;
@@ -44,7 +51,13 @@
   padding: 0 !important;
   height: 100%;
 }
+
+.DayPicker-Month {
+  width: 100% !important;
+  margin: 0 !important;
+}
+
 .DayPicker-Day--selected {
-  background-color:  #79D09D !important;
+  background-color: #009688 !important;
   color: white;
 }

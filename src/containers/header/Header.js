@@ -20,10 +20,12 @@ class Header extends Component {
   }
 
   saveNewTeam = () => {
-    this.props.store.newTeamLocation = this.props.store.newTeamLocation == '' ? "D4 - Øst (Funksjonell + Markedsoperasjon)" : this.props.store.newTeamLocation;
+    this.props.store.newTeamLocation = this.props.store.newTeamLocation === ''
+      ? "D4 - Øst (Funksjonell + Markedsoperasjon)"
+      : this.props.store.newTeamLocation;
 
-    return axios.
-      post(UrlAddTeam, {
+    return axios
+      .post(UrlAddTeam, {
         teamName: this.props.store.newTeamName,
         location: this.props.store.newTeamLocation,
         members: []
@@ -70,13 +72,14 @@ class Header extends Component {
   }
 
   render() {
+    const toggleMenuIcon = this.props.store.isMenuOpen ? 'remove' : 'bars';
 
     return (
       <header className="Header">
         {this.renderNewTeamModal()}
       <Title title={this.props.store.title}/>
       <span onClick={this.props.onClick}>
-      <FontAwesome name='ellipsis-h' className="icon"/>
+      <FontAwesome name={toggleMenuIcon} className="icon"/>
       </span>
       <div className="Header-addTeam" onClick={() => this.displayNewTeamModal()}>+ New team</div>
       </header>

@@ -4,8 +4,9 @@ import './Board.css';
 import Modal from '../../components/modal/Modal'
 import DayPicker from "react-day-picker";
 import axios from 'axios';
-import {UrlAddmember, UrlAddTeam, UrlDeleteMember} from '../constants/UrlConstants';
+import { UrlAddmember, UrlDeleteMember, UrlDeleteTeam } from '../constants/UrlConstants';
 import Masonry from 'react-masonry-component';
+import { toJS as mobxToJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 
 @inject("store")
@@ -30,12 +31,12 @@ class Board extends Component {
            }
       }
 
-      const  styleClass = isAvailableToday ? { background: '#6FCF97' } : { background: '#FFB74D' };
+      const  styleClass = isAvailableToday ? { background: '#009688', color: '#fff' } : { background: '#FFAB40' };
 
       returnedList.push(
         <li key={currentMember._id} className="Board-list-item" id={currentMember._id} onClick={() => this.userClicked(currentMember)}>
           <div className="Board-list-item-inner" style={styleClass}>
-            <span>{currentMember.name}</span>
+            <span><i className="fa fa-user"></i> {currentMember.name}</span>
           </div>
         </li>
       );
@@ -85,7 +86,7 @@ class Board extends Component {
             selectedDays={ this.props.store.selectedDays }
             onDayClick={ this.props.store.handleDayClick }/>
           </ul>
-          <button className="delete" style={{background: '#F44336'}} onClick={() => this.deleteUser()}>
+          <button className="delete" style={{background: '#DD2C00'}} onClick={() => this.deleteUser()}>
           Delete {currentMember.name}?</button>
           </div>
         </Modal>
@@ -146,6 +147,21 @@ class Board extends Component {
     this.props.store.newMemberName = event.target.value;
   }
 
+  handleDeleteTeam(team) {
+    const areYouSure = confirm('Are you sure you want to delete this team?');
+    if (areYouSure) {
+      return axios
+        .delete(`${UrlDeleteTeam}/${team._id}`)
+        .then((response) => {
+          this.props.store.fetchAllTeams();
+        }).catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return false;
+    }
+  }
+
   render() {
 
     const dateDefined = new Date(this.props.originalDate);
@@ -164,9 +180,15 @@ class Board extends Component {
              this.props.seats.map((team, index) => {
               let returnedList = [];
 
+                const data = mobxToJS(team);
+
                 returnedList.push(
                   <div className="Board-inner-team" key={index}>
-                    <span className="Board-inner-team-name">{team.teamName}</span>
+                    <span className="Board-inner-team-name">
+                      <span onClick={() => this.handleDeleteTeam(data)} className="Board-inner-team-delete"><i className="fa fa-trash-o"></i> Delete team</span>
+                      <i className="fa fa-users"></i>
+                      &nbsp;{team.teamName}
+                    </span>
                     <span className="Board-inner-team-location">{team.location}</span>
                       <ul className="Board-list">
                         {this.createTeamLabels(team, dateDefined)}

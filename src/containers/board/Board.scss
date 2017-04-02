@@ -1,8 +1,12 @@
 .Board {
   float: left;
   width: calc(100vw - 300px);
-  padding: 0px 30px;
+  padding: 0 30px;
   margin-top: 40px;
+
+  @media (max-width: 600px) {
+    padding: 0 10px;
+  }
 
   &-fullWidth {
     width: 100% !important;
@@ -43,9 +47,29 @@
       width: 50%;
       float: left;
 
+      @media (max-width: 600px) {
+        width: 100%;
+        margin-bottom: 25px;
+      }
+
+      &-delete {
+        margin-right: 10px;
+        display: block;
+        margin-bottom: 10px;
+        color: #999;
+        font-weight: 300;
+        cursor: pointer;
+        transition: all 0.1s ease-in-out;
+
+        &:hover {
+          color: rgb(221, 44, 0);
+        }
+      }
+
       &-name {
         font-weight: bold;
         margin-right: 10px;
+        transition: all 0.1s ease-in-out;
       }
 
       &-location {
@@ -62,9 +86,20 @@
       width: 33.3333336%;
       padding: 5px;
       display: inline-block;
+
+      @media (max-width: 960px) {
+        width: 50%;
+      }
+
+      @media (max-width: 600px) {
+        width: 100%;
+      }
+
       &-inner {
-        padding: 7px 15px;
+        padding: 7px 10px;
         cursor: pointer;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+
         span {
           white-space: nowrap;
           overflow: hidden;

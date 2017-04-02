@@ -1,11 +1,11 @@
 .Header {
   padding: 15px 30px;
-  background: #2F80ED;
-  color: #fff;
-  border-bottom:  5px solid lighten(#2F80ED, 10%);
+  background: #fff;
+  //color: #fff;
+  //border-bottom:  5px solid lighten(#2F80ED, 10%);
   position: fixed;
   z-index: 1;
-  //box-shadow: 0px 0px 10px rgba(0,0,0,0.6);
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.4);
   display: table;
   width: 100%;
 
@@ -48,15 +48,28 @@
   }
 
   &-addTeam {
+    transition: background 0.1s ease-in-out, color 0.1s ease-in-out;
     padding: 5px 20px;
-    background:darken(#2F80ED, 10%);
-    color: #fff;
+    background: transparent;
+    border: 1px solid #009688;
+    color: #009688;
     display: inline-block;
     float: right;
     margin-right: 35px;
     cursor: pointer;
     position: relative;
-    top: 3px;
+    top: 2px;
+
+    @media (max-width: 600px) {
+      font-size: 10px;
+      padding: 5px;
+      margin-right: 15px;
+    }
+
+    &:hover {
+      background: #009688;
+      color: #fff;
+    }
   }
 
   h1 {
@@ -66,6 +79,10 @@
     font-weight: 300;
     position: relative;
     top: 7px;
+
+    @media (max-width: 600px) {
+      font-size: 14px;
+    }
   }
 
   p {
@@ -76,7 +93,14 @@
     float: right;
 
     .icon {
-      font-size: 30px;
+      font-size: 20px;
+      position: relative;
+      top: 5px;
+      color: #009688;
+
+      @media (max-width: 600px) {
+        top: 3px;
+      }
     }
   }
 }
