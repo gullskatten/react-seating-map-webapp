@@ -30,7 +30,7 @@ class Board extends Component {
            }
       }
 
-      const  styleClass = isAvailableToday ? { background: '#6FCF97' } : { background: '#FFB74D' };
+      const  styleClass = isAvailableToday ? { background: '#009688', color: '#fff' } : { background: '#FFAB40' };
 
       returnedList.push(
         <li key={currentMember._id} className="Board-list-item" id={currentMember._id} onClick={() => this.userClicked(currentMember)}>
@@ -85,7 +85,7 @@ class Board extends Component {
             selectedDays={ this.props.store.selectedDays }
             onDayClick={ this.props.store.handleDayClick }/>
           </ul>
-          <button className="delete" style={{background: '#F44336'}} onClick={() => this.deleteUser()}>
+          <button className="delete" style={{background: '#DD2C00'}} onClick={() => this.deleteUser()}>
           Delete {currentMember.name}?</button>
           </div>
         </Modal>

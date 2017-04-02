@@ -7,8 +7,19 @@
   top: 65px;
   transition: right 0.3s ease-in-out;
   overflow-y: scroll;
+  border-left: 1px solid #eee;
+  padding: 0 20px;
+
+  @media (max-width: 600) {
+    width: 80%;
+    right: -80%;
+  }
 }
 
 .DisplayMenu {
   right: 0;
+
+  @media (max-width: 600) {
+    right: 80%;
+  }
 }

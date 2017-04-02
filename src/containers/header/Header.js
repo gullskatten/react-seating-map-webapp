@@ -72,13 +72,14 @@ class Header extends Component {
   }
 
   render() {
+    const toggleMenuIcon = this.props.store.isMenuOpen ? 'remove' : 'bars';
 
     return (
       <header className="Header">
         {this.renderNewTeamModal()}
       <Title title={this.props.store.title}/>
       <span onClick={this.props.onClick}>
-      <FontAwesome name='bars' className="icon"/>
+      <FontAwesome name={toggleMenuIcon} className="icon"/>
       </span>
       <div className="Header-addTeam" onClick={() => this.displayNewTeamModal()}>+ New team</div>
       </header>

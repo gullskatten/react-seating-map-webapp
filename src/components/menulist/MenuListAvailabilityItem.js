@@ -1,4 +1,5 @@
 import React from 'react';
+import Masonry from 'react-masonry-component';
 
 import './MenuList.css';
 
@@ -11,7 +12,6 @@ const MenuListAvailabilityItem = ({ title, originalDate, seats }) => {
       <span className="MenuListHeader">
         {title}
       </span>
-
       <ul className="MenuListAvailable">
       {
         seats.map((team, index) => {
