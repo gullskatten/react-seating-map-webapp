@@ -3,10 +3,13 @@
   background: #2F80ED;
   color: #fff;
   border-bottom: 5px solid #5e9df1;
-  position: relative;
+  position: fixed;
   z-index: 1;
   display: table;
   width: 100%; }
+
+.Header i {
+  margin-right: 5px; }
 
 .Header input[type=text] {
   width: 100%;

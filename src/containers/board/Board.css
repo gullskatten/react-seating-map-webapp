@@ -1,7 +1,8 @@
 .Board {
   float: left;
   width: calc(100vw - 300px);
-  padding: 0px 30px; }
+  padding: 0px 30px;
+  margin-top: 40px; }
 
 .Board-fullWidth {
   width: 100% !important; }
@@ -61,5 +62,6 @@
 .Board-list-item-inner span {
   white-space: nowrap;
   overflow: hidden;
+  font-weight: 300;
   text-overflow: ellipsis;
   display: block; }
