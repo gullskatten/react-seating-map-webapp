@@ -105,6 +105,7 @@ class Header extends Component {
         this.props.store.fetchAllFloors();
         this.props.store.currentFloor = response.data;
         this.props.store.hideModal();
+        //TODO: this.props.store.goToSlide(this.props.store.floors.length + 1);
     }).catch((error) => {
     console.log(error);
     });

@@ -205,11 +205,10 @@ class Board extends Component {
   nextClick = (e) => {
     this.props.store.currentFloorIndex = e;
     this.props.store.currentFloor = this.props.store.floors[e];
-    console.log(this.props.store.currentFloor._id);
+    this.props.store.teams = this.props.store.floors[e].teams;
   }
 
   render() {
-    console.log(this.props.store.floors.length);
     if(this.props.store.floors.length === 0) {
       const toggleBoardClass = this.props.store.isMenuOpen ? '' : 'Board-fullWidth';
       const dynamicWidth = this.props.store.isMenuOpen ? 'calc(100vw - 300px)' : '100%';
@@ -230,7 +229,9 @@ class Board extends Component {
          infinite: true,
          nextArrow: <ArrowLeft/>,
          prevArrow: <ArrowRight/>,
-         afterChange: this.nextClick};
+         afterChange: this.nextClick,
+         slickGoTo: this.props.store.goToSlide
+       };
       return (
       <div className={`Board ${toggleBoardClass}`}>
         {this.displayUserModal(this.props.store.currentShownMember)}
@@ -241,14 +242,14 @@ class Board extends Component {
          this.props.floors.map((floor, index) => {
            return (
              <div>
-              <Masonry
-                className={'Board-inner'} // default ''
-                elementType={'div'} // default 'div'
-                disableImagesLoaded={false} // default false
-                updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
-                >
-                <span>{floor.name}</span>
+            <span className="Board-inner-floorName">{floor.name}</span>
              <div className="floor" key={index}>
+               <Masonry
+                 className={'Board-inner'} // default ''
+                 elementType={'div'} // default 'div'
+                 disableImagesLoaded={false} // default false
+                 updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+                 >
                {
                  floor.teams.map((team, index) => {
                    const teamData = mobxToJS(team);
@@ -267,9 +268,9 @@ class Board extends Component {
                    )
                  })
                }
+               </Masonry>
              </div>
-             </Masonry>
-             </div>
+           </div>
            )
          })
          }

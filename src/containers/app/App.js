@@ -21,6 +21,7 @@ class App extends Component {
 
   render() {
     const isMenuOpen = this.props.store.isMenuOpen ? "DisplayMenu" : "";
+    
     return (
       <div>
         <Header onClick={() => this.props.store.toggleMenu()}/>
