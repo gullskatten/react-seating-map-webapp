@@ -22,6 +22,7 @@ export default class Store {
       newTeamLocation: '',
       newFloorName: '',
       currentFloor: {},
+      currentFloorIndex: 0,
       teams: []
     });
  }
@@ -54,6 +55,8 @@ export default class Store {
  fetchTeams(floor_id) {
    return axios.get(`${UrlFindAllTeamsByFloorId}${floor_id}`).then((resp) => {
      this.teams = mobxToJS(resp.data);
+     this.floors[this.currentFloorIndex].teams = this.teams; 
+     console.log(mobxToJS(resp.data));
    });
  }
 

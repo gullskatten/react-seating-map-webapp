@@ -25,9 +25,9 @@ class Header extends Component {
       : this.props.store.newTeamLocation;
 
     return axios
-      .post(`${UrlAddTeam}${this.props.store.currentFloor._id}`, {
+      .post(`${UrlAddTeam}`, {
         teamName: this.props.store.newTeamName,
-        location: this.props.store.newTeamLocation,
+        floor_id: this.props.store.currentFloor._id,
         members: []
       })
       .then((response) => {

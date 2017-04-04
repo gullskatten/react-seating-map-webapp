@@ -8,6 +8,8 @@ import { UrlAddmember, UrlAddFloor, UrlDeleteMember, UrlDeleteTeam } from '../co
 import Masonry from 'react-masonry-component';
 import { toJS as mobxToJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
+import Slider from 'react-slick';
+import { ArrowLeft, ArrowRight } from '../../components/arrows/Arrow';
 
 @inject("store")
 @observer
@@ -200,6 +202,12 @@ class Board extends Component {
     });
   }
 
+  nextClick = (e) => {
+    this.props.store.currentFloorIndex = e;
+    this.props.store.currentFloor = this.props.store.floors[e];
+    console.log(this.props.store.currentFloor._id);
+  }
+
   render() {
     console.log(this.props.store.floors.length);
     if(this.props.store.floors.length === 0) {
@@ -216,43 +224,62 @@ class Board extends Component {
     } else {
       const dateDefined = new Date(this.props.originalDate);
       const toggleBoardClass = this.props.store.isMenuOpen ? '' : 'Board-fullWidth';
+      var settings = {
+         slidesToShow: 1,
+         slidesToScroll: 1,
+         infinite: true,
+         nextArrow: <ArrowLeft/>,
+         prevArrow: <ArrowRight/>,
+         afterChange: this.nextClick};
       return (
       <div className={`Board ${toggleBoardClass}`}>
         {this.displayUserModal(this.props.store.currentShownMember)}
         {this.displayNewUserModal(this.props.store.currentTeam)}
-        <Masonry
-            className={'Board-inner'} // default ''
-            elementType={'div'} // default 'div'
-            disableImagesLoaded={false} // default false
-            updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
-      >
-         {
-               this.props.seats.map((team, index) => {
-                let returnedList = [];
 
-                  const data = mobxToJS(team);
-
-                  returnedList.push(
-                    <div className="Board-inner-team" key={index}>
-                      <span className="Board-inner-team-name">
-                        <span onClick={() => this.handleDeleteTeam(data)} className="Board-inner-team-delete"><i className="fa fa-trash-o"></i> Delete team</span>
+        <Slider {...settings}>
+       {
+         this.props.floors.map((floor, index) => {
+           return (
+             <div>
+              <Masonry
+                className={'Board-inner'} // default ''
+                elementType={'div'} // default 'div'
+                disableImagesLoaded={false} // default false
+                updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+                >
+                <span>{floor.name}</span>
+             <div className="floor" key={index}>
+               {
+                 floor.teams.map((team, index) => {
+                   const teamData = mobxToJS(team);
+                   return (
+                     <div className="Board-inner-team" key={index}>
+                       <span className="Board-inner-team-name">
+                        <span onClick={() => this.handleDeleteTeam(teamData)} className="Board-inner-team-delete"><i className="fa fa-trash-o"></i> Delete team</span>
                         <i className="fa fa-users"></i>
-                        &nbsp;{team.teamName}
+                        &nbsp;{teamData.teamName}
                       </span>
-                      <span className="Board-inner-team-location">{team.location}</span>
+                      <span className="Board-inner-team-location">{teamData.location}</span>
                         <ul className="Board-list">
-                          {this.createTeamLabels(team, dateDefined)}
+                          {this.createTeamLabels(teamData, dateDefined)}
                         </ul>
                     </div>
-                  );
-                return returnedList;
-            })
-            }
-              </Masonry>
+                   )
+                 })
+               }
+             </div>
+             </Masonry>
+             </div>
+           )
+         })
+         }
+
+              </Slider>
           </div>
       );
     }
   }
+
 }
 
 export default Board;

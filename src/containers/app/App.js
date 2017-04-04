@@ -24,7 +24,7 @@ class App extends Component {
     return (
       <div>
         <Header onClick={() => this.props.store.toggleMenu()}/>
-        <Board seats={this.props.store.teams} originalDate={this.getToday()}/>
+        <Board floors={this.props.store.floors} originalDate={this.getToday()}/>
         <Sidebar seats={this.props.store.teams} toggleClass={isMenuOpen}/>
       </div>
     );
