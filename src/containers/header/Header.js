@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Title from '../../components/title/Title'
 import FontAwesome from 'react-fontawesome';
 import Modal from '../../components/modal/Modal'
-import {UrlAddTeam} from '../constants/UrlConstants';
+import {UrlAddTeam, UrlAddFloor } from '../constants/UrlConstants';
 import axios from 'axios';
 import { inject, observer } from 'mobx-react';
 
@@ -25,13 +25,13 @@ class Header extends Component {
       : this.props.store.newTeamLocation;
 
     return axios
-      .post(UrlAddTeam, {
+      .post(`${UrlAddTeam}${this.props.store.currentFloor._id}`, {
         teamName: this.props.store.newTeamName,
         location: this.props.store.newTeamLocation,
         members: []
       })
       .then((response) => {
-        this.props.store.fetchAllTeams();
+        this.props.store.fetchTeams(this.props.store.currentFloor._id);
         this.props.store.hideModal();
       })
       .catch((err) => {
@@ -41,6 +41,10 @@ class Header extends Component {
 
   displayNewTeamModal() {
     this.props.store.isNewTeamModalOpen = true;
+  }
+
+  displayNewFloorModal() {
+    this.props.store.isNewFloorModalOpen = true;
   }
 
   renderNewTeamModal = () => {
@@ -71,16 +75,53 @@ class Header extends Component {
     }
   }
 
+  renderNewFloorModal() {
+    if(this.props.store.isNewFloorModalOpen) {
+      return(
+        <Modal onExit={this.props.store.hideModal} height="210px">
+          <div className="ModalHeader">
+          Add a new floor
+          </div>
+          <div className="ModalBody">
+          <p>Type in the name of the floor</p>
+          <input type="text" placeholder="Enter a name.. (e.g. Floor 1.. Section A..)" onChange={this.newFloorNameChanged}/>
+          <button onClick={this.saveNewFloor}>Save</button>
+          </div>
+        </Modal>
+      );
+    }
+  }
+
+  newFloorNameChanged = (event) => {
+    this.props.store.newFloorName = event.target.value;
+  }
+
+  saveNewFloor = () => {
+    axios.post(`${UrlAddFloor}`,
+      {
+        name: this.props.store.newFloorName
+      }
+    ).then((response) => {
+        this.props.store.fetchAllFloors();
+        this.props.store.currentFloor = response.data;
+        this.props.store.hideModal();
+    }).catch((error) => {
+    console.log(error);
+    });
+  }
+
   render() {
     const toggleMenuIcon = this.props.store.isMenuOpen ? 'remove' : 'bars';
 
     return (
       <header className="Header">
         {this.renderNewTeamModal()}
+        {this.renderNewFloorModal()}
       <Title title={this.props.store.title}/>
       <span onClick={this.props.onClick}>
       <FontAwesome name={toggleMenuIcon} className="icon"/>
       </span>
+      <div className="Header-addFloor" onClick={() => this.displayNewFloorModal()}>+ New floor</div>
       <div className="Header-addTeam" onClick={() => this.displayNewTeamModal()}>+ New team</div>
       </header>
     );

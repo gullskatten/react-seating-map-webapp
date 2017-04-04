@@ -10,7 +10,7 @@ import { inject, observer } from 'mobx-react';
 class App extends Component {
 
   componentDidMount() {
-    this.props.store.fetchAllTeams();
+    this.props.store.fetchAllFloors();
   }
 
   getToday() {
@@ -19,14 +19,13 @@ class App extends Component {
     return today;
   }
 
-
   render() {
     const isMenuOpen = this.props.store.isMenuOpen ? "DisplayMenu" : "";
     return (
       <div>
         <Header onClick={() => this.props.store.toggleMenu()}/>
-        <Board seats={this.props.store.seats} originalDate={this.getToday()}/>
-        <Sidebar seats={this.props.store.seats} toggleClass={isMenuOpen}/>
+        <Board seats={this.props.store.teams} originalDate={this.getToday()}/>
+        <Sidebar seats={this.props.store.teams} toggleClass={isMenuOpen}/>
       </div>
     );
   }

@@ -4,7 +4,7 @@ import './Board.css';
 import Modal from '../../components/modal/Modal'
 import DayPicker from "react-day-picker";
 import axios from 'axios';
-import { UrlAddmember, UrlDeleteMember, UrlDeleteTeam } from '../constants/UrlConstants';
+import { UrlAddmember, UrlAddFloor, UrlDeleteMember, UrlDeleteTeam } from '../constants/UrlConstants';
 import Masonry from 'react-masonry-component';
 import { toJS as mobxToJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
@@ -99,7 +99,7 @@ class Board extends Component {
     if(isConfirmed) {
       axios.delete(`${UrlDeleteMember}${this.props.store.currentShownMember.team_id}/${this.props.store.currentShownMember._id}`
       ).then((response) => {
-            this.props.store.fetchAllTeams();
+            this.props.store.fetchTeams(this.props.store.currentFloor._id);
             this.props.store.hideModal();
 
       }).catch((error) => {
@@ -128,7 +128,6 @@ class Board extends Component {
   }
 
   saveNewUser = () => {
-
     axios.put(`${UrlAddmember}${this.props.store.currentTeam}`,
       {
         name: this.props.store.newMemberName,
@@ -136,7 +135,7 @@ class Board extends Component {
         team_id: this.props.store.currentTeam
       }
     ).then((response) => {
-        this.props.store.fetchAllTeams();
+        this.props.store.fetchTeams(this.props.store.currentFloor._id);
         this.props.store.hideModal();
     }).catch((error) => {
     console.log(error);
@@ -153,7 +152,7 @@ class Board extends Component {
       return axios
         .delete(`${UrlDeleteTeam}/${team._id}`)
         .then((response) => {
-          this.props.store.fetchAllTeams();
+          this.props.store.fetchTeams(this.props.store.currentFloor._id);
         }).catch((err) => {
           console.log(err);
         });
@@ -162,45 +161,97 @@ class Board extends Component {
     }
   }
 
+  handleNewFloorClicked() {
+    this.props.store.isNewFloorModalOpen = true;
+  }
+
+  displayNewFloorModal() {
+    if(this.props.store.isNewFloorModalOpen) {
+      return(
+        <Modal onExit={this.props.store.hideModal} height="210px">
+          <div className="ModalHeader">
+          Add a new floor
+          </div>
+          <div className="ModalBody">
+          <p>Type in the name of the floor</p>
+          <input type="text" placeholder="Enter a name.. (e.g. Floor 1.. Section A..)" onChange={this.newFloorNameChanged}/>
+          <button onClick={this.saveNewFloor}>Save</button>
+          </div>
+        </Modal>
+      );
+    }
+  }
+
+  newFloorNameChanged = (event) => {
+    this.props.store.newFloorName = event.target.value;
+  }
+
+  saveNewFloor = () => {
+    axios.post(`${UrlAddFloor}`,
+      {
+        name: this.props.store.newFloorName
+      }
+    ).then((response) => {
+        this.props.store.fetchAllFloors();
+        this.props.store.currentFloor = response.data;
+        this.props.store.hideModal();
+    }).catch((error) => {
+    console.log(error);
+    });
+  }
+
   render() {
-
-    const dateDefined = new Date(this.props.originalDate);
-    const toggleBoardClass = this.props.store.isMenuOpen ? '' : 'Board-fullWidth';
-    return (
-    <div className={`Board ${toggleBoardClass}`}>
-      {this.displayUserModal(this.props.store.currentShownMember)}
-      {this.displayNewUserModal(this.props.store.currentTeam)}
-      <Masonry
-          className={'Board-inner'} // default ''
-          elementType={'div'} // default 'div'
-          disableImagesLoaded={false} // default false
-          updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
-    >
-       {
-             this.props.seats.map((team, index) => {
-              let returnedList = [];
-
-                const data = mobxToJS(team);
-
-                returnedList.push(
-                  <div className="Board-inner-team" key={index}>
-                    <span className="Board-inner-team-name">
-                      <span onClick={() => this.handleDeleteTeam(data)} className="Board-inner-team-delete"><i className="fa fa-trash-o"></i> Delete team</span>
-                      <i className="fa fa-users"></i>
-                      &nbsp;{team.teamName}
-                    </span>
-                    <span className="Board-inner-team-location">{team.location}</span>
-                      <ul className="Board-list">
-                        {this.createTeamLabels(team, dateDefined)}
-                      </ul>
-                  </div>
-                );
-              return returnedList;
-          })
-          }
-            </Masonry>
+    console.log(this.props.store.floors.length);
+    if(this.props.store.floors.length === 0) {
+      const toggleBoardClass = this.props.store.isMenuOpen ? '' : 'Board-fullWidth';
+      const dynamicWidth = this.props.store.isMenuOpen ? 'calc(100vw - 300px)' : '100%';
+      const centerStyle = {height: '100vh', width: dynamicWidth, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'};
+      return (
+        <div className={`Board ${toggleBoardClass}`} style={centerStyle}>
+        {this.displayNewFloorModal()}
+        <span style={{fontWeight: 300, fontSize: 24}}>Wow, it is empty here..</span>
+        <button onClick={() => this.handleNewFloorClicked()}>Create a new floor</button>
         </div>
-    );
+      );
+    } else {
+      const dateDefined = new Date(this.props.originalDate);
+      const toggleBoardClass = this.props.store.isMenuOpen ? '' : 'Board-fullWidth';
+      return (
+      <div className={`Board ${toggleBoardClass}`}>
+        {this.displayUserModal(this.props.store.currentShownMember)}
+        {this.displayNewUserModal(this.props.store.currentTeam)}
+        <Masonry
+            className={'Board-inner'} // default ''
+            elementType={'div'} // default 'div'
+            disableImagesLoaded={false} // default false
+            updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+      >
+         {
+               this.props.seats.map((team, index) => {
+                let returnedList = [];
+
+                  const data = mobxToJS(team);
+
+                  returnedList.push(
+                    <div className="Board-inner-team" key={index}>
+                      <span className="Board-inner-team-name">
+                        <span onClick={() => this.handleDeleteTeam(data)} className="Board-inner-team-delete"><i className="fa fa-trash-o"></i> Delete team</span>
+                        <i className="fa fa-users"></i>
+                        &nbsp;{team.teamName}
+                      </span>
+                      <span className="Board-inner-team-location">{team.location}</span>
+                        <ul className="Board-list">
+                          {this.createTeamLabels(team, dateDefined)}
+                        </ul>
+                    </div>
+                  );
+                return returnedList;
+            })
+            }
+              </Masonry>
+          </div>
+      );
+    }
   }
 }
 

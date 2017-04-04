@@ -23,7 +23,7 @@ class Sidebar extends Component {
   render() {
     return (
       <div className={`Sidebar ${this.props.toggleClass}`}>
-      <MenuList seats={this.props.store.seats} today={this.getToday()} tomorrow={this.getTomorrow()}/>
+      <MenuList seats={this.props.seats} today={this.getToday()} tomorrow={this.getTomorrow()}/>
       </div>
     );
   }
