@@ -71,6 +71,9 @@
       color: #fff;
     }
   }
+  &-addFloor {
+    @extend .Header-addTeam;
+  }
 
   h1 {
     float: left;
