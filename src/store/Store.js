@@ -16,6 +16,7 @@ export default class Store {
       isNewUserModalOpen: false,
       isNewTeamModalOpen: false,
       isNewFloorModalOpen: false,
+      isUserEditOn: false,
       selectedDays: [],
       newMemberName: '',
       newTeamName: '',
@@ -26,13 +27,13 @@ export default class Store {
       teams: []
     });
  }
-/*
-TODO
+
+
  @action
  goToSlide(slide) {
    console.log(slide)
  }
- */
+
 
  @action
  fetchAllFloors() {

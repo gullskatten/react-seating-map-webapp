@@ -8,6 +8,15 @@
     padding: 0 10px;
   }
 
+  .Board-inner-cheat-card {
+    padding-top: 20px;
+  }
+  .Board-inner-green-box {
+    background: #009688;
+    color: #fff;
+    padding: 5px;
+  }
+
   &-fullWidth {
     width: 100% !important;
   }
@@ -18,9 +27,10 @@
     font-size: 1rem;
     padding-left: 10px;
   }
-
+  .delete {
+    float:right;
+  }
   button {
-    float: right;
     margin-top: 1rem;
     border: 0;
     padding: 10px 20px;
@@ -38,7 +48,7 @@
   &-inner {
     display: table;
     width: 100%;
-    padding-top: 50px;
+    padding-top: 30px;
 
     .floor {
       width: 100%;

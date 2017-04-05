@@ -4,7 +4,7 @@ import './Board.css';
 import Modal from '../../components/modal/Modal'
 import DayPicker from "react-day-picker";
 import axios from 'axios';
-import { UrlAddmember, UrlAddFloor, UrlDeleteMember, UrlDeleteTeam } from '../constants/UrlConstants';
+import { UrlUpdateMember, UrlAddmember, UrlAddFloor, UrlDeleteMember, UrlDeleteTeam } from '../constants/UrlConstants';
 import Masonry from 'react-masonry-component';
 import { toJS as mobxToJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
@@ -75,10 +75,28 @@ class Board extends Component {
 
   displayUserModal(currentMember) {
     if(this.props.store.isUserModalOpen) {
+
+    const buttonStyles = {
+    background: '#009688',
+    border: '0.05rem solid white',
+    fontSize: '10px',
+    marginTop: '0px',
+    marginLeft: '10px',
+    padding: '5px',
+  ...(this.props.store.isUserEditOn ? { display: 'inline-block' } : { display: 'none' }),
+      };
+      console.log(buttonStyles);
       return(
         <Modal onExit={this.props.store.hideModal}>
           <div className="ModalHeader">
-          {currentMember.name}
+          <span ref={(memberName) => {this.memberName = memberName}}
+           contentEditable="true" onFocus={this.currentMemberNameFocus}>
+           <i className="fa fa-pencil"/>
+           {currentMember.name}
+          </span>
+             <button style={buttonStyles} onClick={() => this.updateUser(currentMember)}>
+                Update
+             </button>
           </div>
           <div className="ModalBody">
           <p>Click to update available dates for this seat.</p>
@@ -94,6 +112,25 @@ class Board extends Component {
         </Modal>
       );
     }
+  }
+
+  updateUser = (currentMember) => {
+    currentMember.name =  this.memberName.innerText;
+
+    console.log( this.memberName.innerText);
+    return axios
+      .put(UrlUpdateMember, currentMember)
+      .then((response) => {
+         this.props.store.fetchTeams(this.props.store.currentFloor._id);
+         this.props.store.isUserEditOn = false;
+      }).catch((error) => {
+        console.log(error);
+      });
+  }
+
+  currentMemberNameFocus = (e) => {
+
+    this.props.store.isUserEditOn = true;
   }
 
   deleteUser = () => {
@@ -223,12 +260,12 @@ class Board extends Component {
     } else {
       const dateDefined = new Date(this.props.originalDate);
       const toggleBoardClass = this.props.store.isMenuOpen ? '' : 'Board-fullWidth';
-      var settings = {
+      const settings = {
          slidesToShow: 1,
          slidesToScroll: 1,
          infinite: true,
-         nextArrow: <ArrowLeft/>,
-         prevArrow: <ArrowRight/>,
+         nextArrow: <ArrowRight/>,
+         prevArrow: <ArrowLeft/>,
          afterChange: this.nextClick,
          slickGoTo: this.props.store.goToSlide
        };
@@ -243,6 +280,9 @@ class Board extends Component {
            return (
              <div>
             <span className="Board-inner-floorName">{floor.name}</span>
+            <div className="Board-inner-cheat-card">
+            <span>A <span className="Board-inner-green-box">Green Box</span> indicates that the seat is available today.</span>
+            </div>
              <div className="floor" key={index}>
                <Masonry
                  className={'Board-inner'} // default ''
@@ -274,7 +314,6 @@ class Board extends Component {
            )
          })
          }
-
               </Slider>
           </div>
       );

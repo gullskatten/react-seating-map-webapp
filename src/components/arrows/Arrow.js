@@ -5,7 +5,7 @@ const arrowStyle = {
   top: '40vh',
   cursor: 'pointer',
   fontSize: '1.5rem',
-  color: '#2196F3'
+  color: '#999'
 }
 
 const leftStyle = {
