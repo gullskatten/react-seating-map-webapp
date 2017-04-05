@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
 import Header from '../header/Header';
-import Sidebar from '../sidebar/Sidebar'
-import Board from '../board/Board'
+import Sidebar from '../sidebar/Sidebar';
+import Board from '../board/Board';
 import './App.css';
 import { inject, observer } from 'mobx-react';
 
-@inject("store")
+@inject('store')
 @observer
 class App extends Component {
-
   componentDidMount() {
     this.props.store.fetchAllFloors();
   }
 
   getToday() {
     var today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
     return today;
   }
 
   render() {
-    const isMenuOpen = this.props.store.isMenuOpen ? "DisplayMenu" : "";
-    
+    const isMenuOpen = this.props.store.isMenuOpen ? 'DisplayMenu' : '';
+
     return (
       <div>
-        <Header onClick={() => this.props.store.toggleMenu()}/>
-        <Board floors={this.props.store.floors} originalDate={this.getToday()}/>
-        <Sidebar seats={this.props.store.teams} toggleClass={isMenuOpen}/>
+        <Header onClick={() => this.props.store.toggleMenu()} />
+        <Board
+          floors={this.props.store.floors}
+          originalDate={this.getToday()}
+        />
+        <Sidebar seats={this.props.store.teams} toggleClass={isMenuOpen} />
       </div>
     );
   }
