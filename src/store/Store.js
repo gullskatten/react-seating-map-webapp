@@ -117,6 +117,7 @@ export default class Store {
     this.isNewUserModalOpen = false;
     this.isNewTeamModalOpen = false;
     this.isNewFloorModalOpen = false;
+    this.isUserEditOn = false;
     this.newFloorName = '';
     this.newTeamLocation = '';
     this.newMemberName = '';
