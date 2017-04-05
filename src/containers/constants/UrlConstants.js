@@ -6,7 +6,7 @@ export const UrlDeleteTeam = 'http://localhost:8080/team/delete';
 export const UrlDeleteMember = 'http://localhost:8080/team/delete/member/';
 export const UrlFindAllTeamsByFloorId = 'http://localhost:8080/team/';
 
-export const UrlFindAllFloors = 'http://localhost:8080/floor/all/'
+export const UrlFindAllFloors = 'http://localhost:8080/floor/all/';
 // Delete, Find, or Update (/:id/:name/)
-export const UrlFloors = 'http://localhost:8080/floor/'
-export const UrlAddFloor = 'http://localhost:8080/floor/add/'
+export const UrlFloors = 'http://localhost:8080/floor/';
+export const UrlAddFloor = 'http://localhost:8080/floor/add/';
