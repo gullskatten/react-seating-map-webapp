@@ -113,6 +113,7 @@ class Board extends Component {
       return (
         <Modal onExit={this.props.store.hideModal}>
           <div className="ModalHeader">
+            <i className="fa fa-pencil" onClick={() => this.focusUserName()} />
             <span
               ref={memberName => {
                 this.memberName = memberName;
@@ -120,7 +121,7 @@ class Board extends Component {
               contentEditable="true"
               onFocus={this.currentMemberNameFocus}
             >
-              <i className="fa fa-pencil" />
+
               {currentMember.name}
             </span>
             <button
@@ -151,6 +152,10 @@ class Board extends Component {
       );
     }
   }
+
+  focusUserName = () => {
+    this.memberName.focus();
+  };
 
   updateUser = currentMember => {
     currentMember.name = this.memberName.innerText;

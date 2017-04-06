@@ -28,7 +28,10 @@
     padding-left: 10px;
   }
   .delete {
-    float:right;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 600px;
   }
   button {
     margin-top: 1rem;
