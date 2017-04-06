@@ -109,7 +109,6 @@ class Board extends Component {
           ? { display: 'inline-block' }
           : { display: 'none' })
       };
-      console.log(buttonStyles);
       return (
         <Modal onExit={this.props.store.hideModal}>
           <div className="ModalHeader">

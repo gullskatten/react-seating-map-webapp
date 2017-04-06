@@ -45,7 +45,7 @@ class Header extends Component {
   renderNewTeamModal = () => {
     if (this.props.store.isNewTeamModalOpen) {
       return (
-        <Modal onExit={this.props.store.hideModal} height="275px">
+        <Modal onExit={this.props.store.hideModal} height="210px">
           <div className="ModalHeader">
             Add new Team
           </div>
@@ -56,22 +56,6 @@ class Header extends Component {
               placeholder="Enter team name.."
               onChange={this.newTeamChanged}
             />
-            <select
-              className="select-style"
-              onChange={this.newTeamLocationChanged}
-            >
-              <option value="D4 - Øst (Funksjonell + Markedsoperasjon)">
-                D4 - Øst (Funksjonell + Markedsoperasjon){' '}
-              </option>
-              <option
-                value="D4 - Vest (Admin., Infrastruktur &amp; Edielportal)"
-              >
-                D4 - Vest (Admin., Infrastruktur & Edielportal)
-              </option>
-              <option value="D4 - Midt (Prosjekt, Test &amp; Migrering)">
-                D4 - Midt (Prosjekt, Test & Migrering){' '}
-              </option>
-            </select>
             <button onClick={this.saveNewTeam}>Save</button>
           </div>
         </Modal>

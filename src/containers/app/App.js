@@ -10,6 +10,12 @@ import { inject, observer } from 'mobx-react';
 class App extends Component {
   componentDidMount() {
     this.props.store.fetchAllFloors();
+    setInterval(
+      () => {
+        this.props.store.fetchTeamsInterval();
+      },
+      15000
+    );
   }
 
   getToday() {

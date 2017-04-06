@@ -11,7 +11,7 @@ import moment from 'moment';
 export default class Store {
   constructor() {
     extendObservable(this, {
-      title: 'D4 - Seating Map',
+      title: 'Available Seats Map',
       floors: [],
       isMenuOpen: true,
       currentShownMember: {},
@@ -63,11 +63,19 @@ export default class Store {
       });
   }
 
+  @action fetchTeamsInterval() {
+    return axios
+      .get(`${UrlFindAllTeamsByFloorId}${this.currentFloor._id}`)
+      .then(resp => {
+        this.teams = mobxToJS(resp.data);
+        this.floors[this.currentFloorIndex].teams = this.teams;
+      });
+  }
+
   @action fetchTeams(floor_id) {
     return axios.get(`${UrlFindAllTeamsByFloorId}${floor_id}`).then(resp => {
       this.teams = mobxToJS(resp.data);
       this.floors[this.currentFloorIndex].teams = this.teams;
-      console.log(mobxToJS(resp.data));
     });
   }
 
