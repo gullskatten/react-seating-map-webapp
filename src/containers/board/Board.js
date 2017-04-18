@@ -9,17 +9,34 @@ import {
   UrlAddmember,
   UrlAddFloor,
   UrlDeleteMember,
-  UrlDeleteTeam
+  UrlDeleteTeam,
+  UrlUpdateTeam
 } from '../constants/UrlConstants';
 import Masonry from 'react-masonry-component';
 import { toJS as mobxToJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import Slider from 'react-slick';
 import { ArrowLeft, ArrowRight } from '../../components/arrows/Arrow';
+import Draggable, { DraggableCore } from 'react-draggable';
 
 @inject('store')
 @observer
 class Board extends Component {
+  constructor() {
+    super();
+    this.state = {
+      deltaPosition: {
+        x: 0,
+        y: 0
+      },
+      controlledPosition: {
+        x: 0,
+        y: 0
+      },
+      teamId: ''
+    };
+  }
+
   createTeamLabels(team, dateDefined) {
     let returnedList = [];
 
@@ -49,6 +66,7 @@ class Board extends Component {
         <li
           key={currentMember._id}
           className="Board-list-item"
+          style={{ width: team.size }}
           id={currentMember._id}
           onClick={() => this.userClicked(currentMember)}
         >
@@ -303,6 +321,56 @@ class Board extends Component {
     this.props.store.teams = this.props.store.floors[e].teams;
   };
 
+  onControlledDrag = (e, position) => {
+    const { x, y } = position;
+    this.setState({ controlledPosition: { x, y } });
+  };
+
+  handleDrag = (e, ui) => {
+    const { x, y } = this.state.deltaPosition;
+    this.setState({
+      deltaPosition: {
+        x: x + ui.deltaX,
+        y: y + ui.deltaY
+      }
+    });
+    console.log(
+      'Rendering, x: ' +
+        this.state.deltaPosition.x +
+        ' y:' +
+        this.state.deltaPosition.y
+    );
+  };
+
+  onStart = () => {};
+
+  onStop = teamId => {
+    console.log('Storing position for :' + teamId);
+    console.log(
+      'x: ' +
+        this.state.controlledPosition.x +
+        'y: ' +
+        this.state.controlledPosition.y
+    );
+    return axios
+      .put(
+        `${UrlUpdateTeam}${teamId}/${this.state.controlledPosition.x}/${this.state.controlledPosition.y}/`
+      )
+      .then(response => {
+        this.props.store.fetchTeams(this.props.store.currentFloor._id);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    this.setState({
+      controlledPosition: {
+        x: 0,
+        y: 0
+      }
+    });
+  };
+
   render() {
     if (this.props.store.floors.length === 0) {
       const toggleBoardClass = this.props.store.isMenuOpen
@@ -342,7 +410,8 @@ class Board extends Component {
         nextArrow: <ArrowRight />,
         prevArrow: <ArrowLeft />,
         afterChange: this.nextClick,
-        slickGoTo: this.props.store.goToSlide
+        slickGoTo: this.props.store.goToSlide,
+        draggable: false
       };
       return (
         <div className={`Board ${toggleBoardClass}`}>
@@ -364,36 +433,43 @@ class Board extends Component {
                     </span>
                   </div>
                   <div className="floor" key={index}>
-                    <Masonry
-                      className={'Board-inner'} // default ''
-                      elementType={'div'} // default 'div'
-                      disableImagesLoaded={false} // default false
-                      updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
-                    >
+                    <div className={'Board-inner'}>
                       {floor.teams.map((team, index) => {
                         const teamData = mobxToJS(team);
+                        const { deltaPosition } = this.state;
                         return (
-                          <div className="Board-inner-team" key={index}>
-                            <span className="Board-inner-team-name">
-                              <span
-                                onClick={() => this.handleDeleteTeam(teamData)}
-                                className="Board-inner-team-delete"
-                              >
-                                <i className="fa fa-trash-o" /> Delete team
-                              </span>
-                              <i className="fa fa-users" />
-                              &nbsp;{teamData.teamName}
-                            </span>
-                            <span className="Board-inner-team-location">
-                              {teamData.location}
-                            </span>
-                            <ul className="Board-list">
-                              {this.createTeamLabels(teamData, dateDefined)}
-                            </ul>
-                          </div>
+                          <Draggable
+                            handle=".handle"
+                            grid={[10, 10]}
+                            zIndex={100}
+                            onDrag={this.onControlledDrag}
+                            onStop={() => this.onStop(teamData._id)}
+                            position={{ x: teamData.x, y: teamData.y }}
+                            // onStart={this.handleStart}
+                            // onDrag={this.handleDrag}
+                            // onStop={() => this.handleStop(event, teamData._id, teamData.x, teamData.y)}
+                          >
+                            <div>
+                              <div className="Board-inner-team" key={index}>
+                                <span className="Board-inner-team-name handle">
+                                  <span
+                                    onClick={() =>
+                                      this.handleDeleteTeam(teamData)}
+                                    className="Board-inner-team-delete"
+                                  >
+                                    <i className="fa fa-trash-o" /> Delete
+                                  </span>
+                                </span>
+                                <ul className="Board-list handle">
+                                  {this.createTeamLabels(teamData, dateDefined)}
+                                </ul>
+                              </div>
+                            </div>
+
+                          </Draggable>
                         );
                       })}
-                    </Masonry>
+                    </div>
                   </div>
                 </div>
               );

@@ -28,6 +28,8 @@ export default class Store {
       newFloorName: '',
       currentFloor: {},
       currentFloorIndex: 0,
+      currentDraggedTeamId: '',
+      newTeamSize: '50%',
       teams: []
     });
   }

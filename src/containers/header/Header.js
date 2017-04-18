@@ -23,10 +23,14 @@ class Header extends Component {
       .post(`${UrlAddTeam}`, {
         teamName: this.props.store.newTeamName,
         floor_id: this.props.store.currentFloor._id,
-        members: []
+        members: [],
+        size: this.props.store.newTeamSize,
+        x: 0,
+        y: 0
       })
       .then(response => {
         this.props.store.fetchTeams(this.props.store.currentFloor._id);
+        this.props.store.newTeamSize = '50%';
         this.props.store.hideModal();
       })
       .catch(err => {
@@ -42,6 +46,10 @@ class Header extends Component {
     this.props.store.isNewFloorModalOpen = true;
   }
 
+  onSizeSelected = e => {
+    this.props.store.newTeamSize = e.target.value;
+  };
+
   renderNewTeamModal = () => {
     if (this.props.store.isNewTeamModalOpen) {
       return (
@@ -56,6 +64,11 @@ class Header extends Component {
               placeholder="Enter team name.."
               onChange={this.newTeamChanged}
             />
+            <select onChange={this.onSizeSelected}>
+              <option value="50%">2x2</option>
+              <option value="25%">4x4</option>
+              <option value="33.3333336%">3x3</option>
+            </select>
             <button onClick={this.saveNewTeam}>Save</button>
           </div>
         </Modal>
